@@ -1,5 +1,6 @@
 FROM circleci/ruby:2.3.3-node-browsers
 ENV YARN_VERSION 0.27.5
+ENV DOCKERFILE_VERSION 20180203
 
 WORKDIR /tmp
 
@@ -36,3 +37,13 @@ RUN set -ex \
   && sudo ln -s -f /opt/yarn/bin/yarn /usr/local/bin/yarn \
   && sudo ln -s -f /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
   && sudo rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz
+
+
+RUN \
+  (echo "DOCKERFILE_VERSION ${DOCKERFILE_VERSION}" \
+    && ruby -v \
+    && echo "yarn $(yarn --version)" \
+    && chromedriver -v \
+    && google-chrome --version \
+    ) >> /tmp/.versions
+
